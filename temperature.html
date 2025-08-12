@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temperature Data</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Jost", sans-serif;
+      background-color: #2e3d17;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 50px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 900%;
+    }
+    #userDisplay {
+      font-size: 20px;
+      color: #333;
+    }
+    canvas {
+      max-width: 600px;
+      width: 100%;
+    }
+    .next-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .next-button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div id="userDisplay">Hello!</div>
+    <h2 id="pageTitle">Temperature</h2>
+    <canvas id="tempChart"></canvas>
+    <button class="next-button" onclick="window.location.href='pressure.html'">Go to Page 4</button>
+  </div>
+
+  <script>
+    const lang = localStorage.getItem("language") || "en";
+    const translations = {
+      en: {
+        greeting: "Hello",
+        title: "Temperature",
+        next: "Pressure"
+      },
+      fil: {
+        greeting: "Kumusta",
+        title: "Temperatura",
+        next: "Presyon"
+      },
+      zh: {
+        greeting: "你好",
+        title: "温度",
+        next: "压力"
+      }
+    };
+
+    const t = translations[lang] || translations["en"];
+    const username = localStorage.getItem("loggedInUser") || "Guest";
+    document.getElementById("userDisplay").textContent = `${t.greeting}, ${username}!`;
+    document.getElementById("pageTitle").textContent = t.title;
+    document.querySelector(".next-button").textContent = t.next;
+
+    const ctx = document.getElementById('tempChart').getContext('2d');
+    const tempChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['13:00', '14:00', '15:00'],
+        datasets: [{
+          label: `${t.title} (°C)`,
+          data: [30.5, 31.2, 32.1],
+          borderColor: '#f87171',
+          backgroundColor: 'rgba(248, 113, 113, 0.2)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false,
+            title: {
+              display: true,
+              text: '°C'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Time (24h)'
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

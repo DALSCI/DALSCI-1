@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ammonia Concentration App</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Jost&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: "Jost", sans-serif;
+      background-color: #2e3d17;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #00072d;
+    }
+
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 50px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 900%;
+    }
+
+    .app-container {
+      width: 100%;
+      text-align: center;
+    }
+
+    #userDisplay {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    input[type="button"] {
+      width: 120px;
+      height: 35px;
+      cursor: pointer;
+      border: 1px solid #2e3d17;
+      background-color: #f0f9f3;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #00072d;
+    }
+
+    canvas {
+      max-width: 600px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="app-container">
+      <div id="userDisplay">Hello!</div>
+      <h2 id="pageTitle">Ammonia Concentration Level</h2>
+      <input type="button" id="nextBtn" value="Next Page">
+    </div>
+
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const lang = localStorage.getItem("language") || "en";
+    const translations = {
+      en: {
+        greeting: "Hello",
+        title: "Ammonia Concentration Level",
+        nextBtn: "Next Page",
+      },
+      fil: {
+        greeting: "Kumusta",
+        title: "Antas ng Konsentrasyon ng Ammonia",
+        nextBtn: "Susunod na Pahina",
+      },
+      zh: {
+        greeting: "你好",
+        title: "氨气浓度水平",
+        nextBtn: "下一页",
+      }
+    };
+
+    function applyLanguage(lang) {
+      const t = translations[lang] || translations["en"];
+      const username = localStorage.getItem("loggedInUser") || "Guest";
+      document.getElementById("userDisplay").textContent = `${t.greeting} ${username}!`;
+      document.getElementById("pageTitle").textContent = t.title;
+      document.getElementById("nextBtn").value = t.nextBtn;
+    }
+
+    // Apply language on load
+    applyLanguage(lang);
+
+    // Chart.js logic
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['25 ppm', '35 ppm', '50 ppm'],
+        datasets: [{
+          label: 'Concentration Level',
+          data: [10, 20, 15],
+          backgroundColor: ['#f87171', '#60a5fa', '#facc15'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Redirect to next page (temperature)
+    document.getElementById("nextBtn").addEventListener("click", function () {
+      window.location.href = "temperature.html";
+    });
+  </script>
+</body>
+</html>
