@@ -170,12 +170,9 @@ body {
 
       if (username === "DALSCI" && password === "TELYLANGMALAKAS") {
         localStorage.setItem("loggedInUser", username);
-        localStorage.setItem("language", lang);
-<<<<<<< HEAD
-        window.location.href = "Data selector.html";
-=======
-        window.location.href = "Data%20selector.html";
->>>>>>> c2dd42876789cd343ee9df5b7f8b0631ce1dc6c7
+// Save selected language and redirect to Data selector page
+localStorage.setItem("language", lang);
+window.location.href = "Data%20selector.html";
       } else {
         alert(t.invalidAlert);
       }
